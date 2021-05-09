@@ -9,7 +9,7 @@ class FormInputCreatePost extends StatelessWidget {
         // padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white54,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(2),
           // border: Border.all(color: Colors.white),
         ),
         child: Column(
@@ -24,13 +24,16 @@ class FormInputCreatePost extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, "about");
                     },
-                    child: new Text("Bạn đang nghĩ gì"),
+                    child: new Text(
+                      "Bạn đang nghĩ gì",
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ),
                   Container(
-                    height: 40.0,
+                    height: 25.0,
                     width: 1.0,
-                    color: Colors.grey,
-                    margin: const EdgeInsets.only(left: 60.0, right: 10.0),
+                    color: Colors.grey[300],
+                    margin: const EdgeInsets.only(left: 120.0, right: 10.0),
                   ),
                   Icon(Icons.panorama, color: Colors.green)
                 ],

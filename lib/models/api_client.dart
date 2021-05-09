@@ -55,16 +55,24 @@ class ApiClient {
     });
     print('Response status: ${response.statusCode}');
     if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      var dataPost = jsonResponse['data']['posts'];
-      print(dataPost);
-      List<Post> listPost = [];
-      for (var post in dataPost) {
-        listPost.add(post);
-      }
-      print('Response status: ${dataPost}}');
-      return listPost;
+      // var jsonResponse =
+      //     convert.jsonDecode(response.body) as Map<String, dynamic>;
+      // var dataPost = jsonResponse['data']['posts'];
+      // // postsFromJSONStr(dataPost);
+      // // dataPost.map((j) => {print(j)});
+      // // print("===================");
+      // // print(dataPost[0]);
+      // // print("===================");
+      // // Post post = new Post();
+      // print(dataPost);
+      var data = jsonDecode(response.body);
+      // print(data);
+      var arrayPost = data['data']['posts'];
+      List<Post> postList =
+          (arrayPost as List).map((data) => Post.fromJSON(data)).toList();
+
+      print(postList);
+      return postList;
     }
 
     // var color = jsonDecode(json);
@@ -81,3 +89,9 @@ class ApiClient {
     // return MyBoxColor.fromJson(color);
   }
 }
+
+// List<Post> postsFromServer(dynamic payload) {
+//   var jsonArray = convert.jsonDecode(payload) as Map<String, dynamic>;
+//   print(jsonArray);
+//   return jsonArray.map((j) => Post.fromJSON(j)).toList();
+// }

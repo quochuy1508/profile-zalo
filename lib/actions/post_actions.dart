@@ -9,13 +9,16 @@ import 'package:sample_flutter_redux_app/models/post/post_state.dart';
 ThunkAction<AppState> getPosts(Completer completer) {
   return (Store<AppState> store) async {
     try {
-      // List<Post> posts = await ApiClient.getPosts();
+      List<Post> posts = await ApiClient.getPosts();
       // print("==============================");
       // print(posts);
       // print("==============================");
 
       // posts.forEach((k, v) => {});
-      // store.dispatch(SetListPost(posts));
+
+      ListPostsState listPostsState =
+          new ListPostsState(error: null, loading: false, data: posts);
+      store.dispatch(SetListPost(new PostState(list: listPostsState)));
       completer.complete();
     } on ColorException catch (e) {
       completer.completeError(e);
@@ -24,7 +27,7 @@ ThunkAction<AppState> getPosts(Completer completer) {
 }
 
 class SetListPost {
-  final ListPostsState listPost;
+  final PostState listPost;
 
   SetListPost(this.listPost);
 }

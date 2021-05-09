@@ -30,7 +30,7 @@ class BodyData extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20),
                 child: ColorController(),
               )),
-              ColorBox(),
+              // ColorBox(),
             ],
           ),
         ],
