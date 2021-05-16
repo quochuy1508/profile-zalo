@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/Component/Body/FormInputCreatePost.dart';
@@ -8,7 +6,6 @@ import 'package:sample_flutter_redux_app/Component/Post/PostItem.dart';
 import 'package:sample_flutter_redux_app/actions/post_actions.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/models/post/post_state.dart';
-import 'package:sample_flutter_redux_app/utils/assets.dart';
 import 'package:timelines/timelines.dart';
 import 'package:redux/redux.dart';
 
@@ -31,9 +28,9 @@ class BodyProfile extends StatelessWidget {
               data.add(FormInputCreatePost());
               for (var i = 0; i < dataPost.length; i++) {
                 // Cards(unit: names[i])
-                print('+++++++++++++++++++++++++++++++');
-                // print();
-                print('+++++++++++++++++++++++++++++++');
+                // print('+++++++++++++++++++++++++++++++');
+                // // print();
+                // print('+++++++++++++++++++++++++++++++');
                 List<String> dateTime = dataPost[i].createdAt.split("-");
                 String dateCreatePost = dateTime.elementAt(2).substring(0, 2) +
                     " tháng " +
@@ -42,7 +39,8 @@ class BodyProfile extends StatelessWidget {
                     // key: dataPost[i].id,
                     dateCreatePost: dateCreatePost,
                     title: dataPost[i].described,
-                    like: dataPost[i].like.toString(),
+                    like: dataPost[i].like,
+                    isLiked: dataPost[i].isLiked,
                     images: dataPost[i].images));
               }
             }

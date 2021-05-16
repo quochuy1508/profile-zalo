@@ -7,6 +7,7 @@ class Avatar extends StatelessWidget {
   final Color backgroundColor;
   final double radius;
   final double borderWidth;
+  // final String linkAvatar;
 
   const Avatar(
       {Key key,
@@ -14,8 +15,17 @@ class Avatar extends StatelessWidget {
       this.borderColor = Colors.grey,
       this.backgroundColor,
       this.radius = 30,
+      // this.linkAvatar,
       this.borderWidth = 5})
       : super(key: key);
+
+  dynamic checkUrl(ImageProvider<dynamic> image, double radius) {
+    try {
+      return CircleAvatar(radius: radius, backgroundImage: image);
+    } catch (e) {
+      return Icon(Icons.image);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +52,11 @@ class Avatar extends StatelessWidget {
                         'assets/modalAvatar.jpg',
                         width: 20,
                       ),
+                      // linkAvatar: linkAvatar,
                     );
                   });
             },
-            child: CircleAvatar(
-              radius: radius - borderWidth,
-              backgroundImage: image,
-            )),
+            child: checkUrl(image, radius - borderWidth)),
       ),
     );
   }

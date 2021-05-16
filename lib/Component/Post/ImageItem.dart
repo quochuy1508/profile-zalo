@@ -5,10 +5,25 @@ class ImageItem extends StatelessWidget {
 
   const ImageItem({this.images});
 
+  dynamic checkUrl(String url) {
+    try {
+      return Image.network(
+        url,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+        errorBuilder:
+            (BuildContext context, Object exception, StackTrace stackTrace) {
+          return Text('Your error widget...');
+        },
+      );
+    } catch (e) {
+      return Icon(Icons.image);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    // List<String> linksImage = images.map((images) => images.link).toList();
     if (images.length > 3) {
       return Container(
           margin: EdgeInsets.all(5),
@@ -25,20 +40,14 @@ class ImageItem extends StatelessWidget {
               children: <Widget>[
             Container(
                 margin: const EdgeInsets.only(right: 1),
-                child: Image.network(
+                child: checkUrl(
                   images[0]['link'],
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
                 )),
             images.indexOf(1) >= 0
                 ? Container(
                     margin: const EdgeInsets.only(right: 1),
-                    child: Image.network(
+                    child: checkUrl(
                       images[1]['link'],
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
                     ))
                 : Container(
                     margin: const EdgeInsets.only(right: 1),
@@ -48,12 +57,7 @@ class ImageItem extends StatelessWidget {
             images.indexOf(2) >= 0
                 ? Container(
                     margin: const EdgeInsets.only(right: 1),
-                    child: Image.network(
-                      images[2]['link'],
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    ))
+                    child: checkUrl(images[2]['link']))
                 : Container(
                     margin: const EdgeInsets.only(right: 1),
                     width: 100,

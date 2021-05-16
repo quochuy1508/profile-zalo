@@ -2,6 +2,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_flutter_redux_app/Component/Modal/constants.dart';
+import 'package:sample_flutter_redux_app/Component/ShowFullImage/ShowImage.dart';
+import 'package:redux/redux.dart';
+import 'package:sample_flutter_redux_app/models/app_state.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sample_flutter_redux_app/models/user/user_state.dart';
 
 class Modal extends StatefulWidget {
   final String title, view, takeScreen, takeDevices;
@@ -23,27 +28,36 @@ class Modal extends StatefulWidget {
 class _CustomDialogBoxState extends State<Modal> {
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Constants.padding),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: contentBox(context),
-    );
+    return StoreConnector<AppState, _ViewModel>(
+        converter: (Store<AppState> store) => _ViewModel.fromStore(store),
+        builder: (BuildContext context, _ViewModel vm) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(Constants.padding),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: contentBox(context, vm.userState),
+          );
+        });
   }
 
-  contentBox(context) {
+// get the text in the TextField and start the Second Screen
+  void _sendDataToSecondScreen(BuildContext context, linkImage) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SecondScreen(image: linkImage),
+        ));
+  }
+
+  contentBox(context, userState) {
+    print("=======================");
+    print(userState);
+    print("=======================");
     return Stack(
       children: <Widget>[
         Container(
-          // padding: EdgeInsets.only(
-          //     left: Constants.padding,
-          //     top: Constants.avatarRadius + Constants.padding,
-          //     right: Constants.padding,
-          //     bottom: Constants.padding),
-          // alignment: Align,
-          // margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration:
               BoxDecoration(shape: BoxShape.rectangle, color: Colors.white,
                   // borderRadius: BorderRadius.circular(Constants.padding),
@@ -83,11 +97,15 @@ class _CustomDialogBoxState extends State<Modal> {
                         SizedBox(
                           width: 20,
                         ),
-                        Text(
-                          widget.view,
-                          style: TextStyle(fontSize: 14),
-                          // textAlign: TextAlign.center,
-                        ),
+                        GestureDetector(
+                            child: Text(
+                              widget.view,
+                              style: TextStyle(fontSize: 14),
+                              // textAlign: TextAlign.center,
+                            ),
+                            onTap: () {
+                              _sendDataToSecondScreen(context, "hello");
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -130,5 +148,15 @@ class _CustomDialogBoxState extends State<Modal> {
         ),
       ],
     );
+  }
+}
+
+class _ViewModel {
+  final Function(Function()) getUserInfo;
+  final UserState userState;
+  _ViewModel({@required this.getUserInfo, @required this.userState});
+
+  static _ViewModel fromStore(Store<AppState> store) {
+    return _ViewModel(userState: store.state.user);
   }
 }

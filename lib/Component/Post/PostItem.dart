@@ -1,22 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:sample_flutter_redux_app/Component/Post/ImageItem.dart';
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatefulWidget {
   final String dateCreatePost, title;
-  final String like;
+  final int like;
   final dynamic images;
+  final bool isLiked;
 
-  const PostItem({
+  PostItem({
     Key key,
     this.dateCreatePost,
     this.title,
     this.like,
     this.images,
+    this.isLiked,
   }) : super(key: key);
+
+  _PostItemState createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
+  bool _active = false;
+  int countLike = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _active = widget.isLiked;
+    countLike = widget.like;
+  }
+
+  void _handleSetIsLiked() {
+    setState(() {
+      if (_active) {
+        _active = false;
+        countLike -= 1;
+      } else {
+        _active = true;
+        countLike += 1;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // List<String> linksImage = images.map((images) => images.link).toList();
+    // setState(() {
+    //   _active = widget.isLiked;
+    // });
     return Container(
         // width: 220,
         // margin: EdgeInsets.all(5),
@@ -42,7 +72,7 @@ class PostItem extends StatelessWidget {
                   child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        dateCreatePost,
+                        widget.dateCreatePost,
                         style: TextStyle(fontSize: 12, color: Colors.black),
                       ))),
               Container(
@@ -62,27 +92,28 @@ class PostItem extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 top: 10, bottom: 5, left: 10),
                             child: Text(
-                              title,
+                              widget.title,
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.pink[300],
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic),
                             )),
-                        ImageItem(images: images),
+                        ImageItem(images: widget.images),
                         Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.black87,
-                                  size: 24.0,
-                                  semanticLabel:
-                                      'Text to announce in accessibility modes',
+                                IconButton(
+                                  padding: EdgeInsets.all(0),
+                                  alignment: Alignment.center,
+                                  icon: Icon(Icons.favorite_border),
+                                  color:
+                                      (_active ? Colors.red : Colors.black45),
+                                  onPressed: _handleSetIsLiked,
                                 ),
-                                Text(like),
+                                Text('$countLike'),
                                 Padding(
                                     padding: const EdgeInsets.only(right: 20)),
                                 Icon(
@@ -92,7 +123,7 @@ class PostItem extends StatelessWidget {
                                   semanticLabel:
                                       'Text to announce in accessibility modes',
                                 ),
-                                Text(like),
+                                Text('0'),
                                 Padding(
                                     padding: const EdgeInsets.only(right: 50)),
                                 Icon(
@@ -107,6 +138,4 @@ class PostItem extends StatelessWidget {
                       ]))
             ]));
   }
-
-  void renderImage() {}
 }

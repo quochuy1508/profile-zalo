@@ -4,15 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/page/Profile.dart';
-import 'package:sample_flutter_redux_app/randomizer.dart';
 import 'package:sample_flutter_redux_app/reducers/app_reducer.dart';
-import 'package:sample_flutter_redux_app/result_box.dart';
-import 'package:sample_flutter_redux_app/color_controller.dart';
-import 'package:sample_flutter_redux_app/color_box.dart';
-import 'package:sample_flutter_redux_app/size_controller.dart';
-import 'package:sample_flutter_redux_app/size_box.dart';
-import 'package:sample_flutter_redux_app/shape_controller.dart';
-import 'package:sample_flutter_redux_app/shape_box.dart';
 
 void main() {
   final initialState = AppState(

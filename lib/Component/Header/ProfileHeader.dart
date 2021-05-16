@@ -17,6 +17,15 @@ class ProfileHeader extends StatelessWidget {
       this.subtitle,
       this.actions})
       : super(key: key);
+
+  dynamic checkUrl(ImageProvider<dynamic> image) {
+    try {
+      return DecorationImage(image: image, fit: BoxFit.cover);
+    } catch (e) {
+      return DecorationImage(image: image, fit: BoxFit.cover);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,7 +33,7 @@ class ProfileHeader extends StatelessWidget {
         Ink(
           height: 200,
           decoration: BoxDecoration(
-            image: DecorationImage(image: coverImage, fit: BoxFit.cover),
+            image: checkUrl(coverImage),
           ),
           child: new InkWell(
             onTap: () {
@@ -32,15 +41,14 @@ class ProfileHeader extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return Modal(
-                      title: "Ảnh bìa",
-                      view: "Xem ảnh bìa",
-                      takeScreen: "Chụp ảnh mới",
-                      takeDevices: "Chọn ảnh từ thiết bị",
-                      img: Image.asset(
-                        'assets/modalCover.jpg',
-                        width: 20,
-                      ),
-                    );
+                        title: "Ảnh bìa",
+                        view: "Xem ảnh bìa",
+                        takeScreen: "Chụp ảnh mới",
+                        takeDevices: "Chọn ảnh từ thiết bị",
+                        img: Image.asset(
+                          'assets/modalCover.jpg',
+                          width: 20,
+                        ));
                   });
             },
           ),
