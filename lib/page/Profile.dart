@@ -48,44 +48,54 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
                   semanticLabel: 'Text to announce in accessibility modes',
                 ),
                 actions: <Widget>[
-                  Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                    size: 24.0,
-                    semanticLabel: 'Text to announce in accessibility modes',
-                  ),
+                  GestureDetector(
+                      onTap: () {
+                        print("Container clicked");
+                        Navigator.pushNamed(context, '/moreInfo');
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.more_horiz,
+                            color: Colors.white,
+                            size: 24.0,
+                            semanticLabel:
+                                'Text to announce in accessibility modes',
+                          ))),
                 ],
               ),
               body: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     ProfileHeader(
-                        avatar: (vm.userState != null &&
-                                vm.userState.data.avatar != null)
-                            ? NetworkImage(vm.userState.data.avatar)
-                            : NetworkImage(images[2]),
-                        coverImage: (vm.userState != null &&
-                                vm.userState.data.coverImage != null)
-                            ? NetworkImage(vm.userState.data.coverImage)
-                            : NetworkImage(images[1]),
-                        title: (vm.userState != null &&
-                                vm.userState.data.name != null)
-                            ? vm.userState.data.name
-                            : "NULL",
-                        subtitle: (vm.userState != null &&
-                                vm.userState.data.description != null)
-                            ? vm.userState.data.description
-                            : "Thêm giới thiệu bản thân"
-                        // actions: <Widget>[
-                        //   MaterialButton(
-                        //     color: Colors.white,
-                        //     shape: CircleBorder(),
-                        //     elevation: 0,
-                        //     child: Icon(Icons.edit),
-                        //     onPressed: () {},
-                        //   )
-                        // ],
-                        ),
+                      avatar: (vm.userState != null &&
+                              vm.userState.data.avatar != null)
+                          ? NetworkImage(vm.userState.data.avatar)
+                          // NetworkImage(images[1])
+                          : NetworkImage(images[2]),
+                      coverImage: (vm.userState != null &&
+                              vm.userState.data.coverImage != null)
+                          ? NetworkImage(vm.userState.data.coverImage)
+                          // ? NetworkImage(images[2])
+                          : NetworkImage(images[1]),
+                      title: (vm.userState != null &&
+                              vm.userState.data.name != null)
+                          ? vm.userState.data.name
+                          : "NULL",
+                      subtitle: (vm.userState != null &&
+                              vm.userState.data.description != null)
+                          ? vm.userState.data.description
+                          : "Thêm giới thiệu bản thân",
+                      // actions: <Widget>[
+                      //   MaterialButton(
+                      //     color: Colors.white,
+                      //     shape: CircleBorder(),
+                      //     elevation: 0,
+                      //     child: Icon(Icons.edit),
+                      //     onPressed: () {},
+                      //   )
+                      // ],
+                    ),
                     const SizedBox(height: 10.0),
                     HorizontalListAsset(),
                     BodyProfile()

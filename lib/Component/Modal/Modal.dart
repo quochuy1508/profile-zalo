@@ -1,12 +1,15 @@
-import 'dart:ui';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample_flutter_redux_app/Component/Modal/constants.dart';
 import 'package:sample_flutter_redux_app/Component/ShowFullImage/ShowImage.dart';
 import 'package:redux/redux.dart';
+import 'package:sample_flutter_redux_app/Component/User/ChangeImageView.dart';
+import 'package:sample_flutter_redux_app/Component/User/ImageViewModel.dart';
 import 'package:sample_flutter_redux_app/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/models/user/user_state.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Modal extends StatefulWidget {
   final String title, view, takeScreen, takeDevices;
@@ -26,6 +29,9 @@ class Modal extends StatefulWidget {
 }
 
 class _CustomDialogBoxState extends State<Modal> {
+  /// Variables
+  File imageFile;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -52,9 +58,6 @@ class _CustomDialogBoxState extends State<Modal> {
   }
 
   contentBox(context, userState) {
-    print("=======================");
-    print(userState);
-    print("=======================");
     return Stack(
       children: <Widget>[
         Container(
@@ -104,7 +107,17 @@ class _CustomDialogBoxState extends State<Modal> {
                               // textAlign: TextAlign.center,
                             ),
                             onTap: () {
-                              _sendDataToSecondScreen(context, "hello");
+                              if (userState != null &&
+                                  userState.data != null &&
+                                  userState.data.avatar != null) {
+                                if (widget.title == 'Ảnh bìa') {
+                                  _sendDataToSecondScreen(
+                                      context, userState.data.coverImage);
+                                } else {
+                                  _sendDataToSecondScreen(
+                                      context, userState.data.avatar);
+                                }
+                              }
                             }),
                       ],
                     ),
@@ -118,11 +131,15 @@ class _CustomDialogBoxState extends State<Modal> {
                         SizedBox(
                           width: 20,
                         ),
-                        Text(
-                          widget.takeScreen,
-                          style: TextStyle(fontSize: 14),
-                          // textAlign: TextAlign.center,
-                        ),
+                        GestureDetector(
+                            child: Text(
+                              widget.takeScreen,
+                              style: TextStyle(fontSize: 14),
+                              // textAlign: TextAlign.center,
+                            ),
+                            onTap: () {
+                              _getFromCamera();
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -135,11 +152,15 @@ class _CustomDialogBoxState extends State<Modal> {
                         SizedBox(
                           width: 20,
                         ),
-                        Text(
-                          widget.takeDevices,
-                          style: TextStyle(fontSize: 14),
-                          // textAlign: TextAlign.center,
-                        ),
+                        GestureDetector(
+                            child: Text(
+                              widget.takeDevices,
+                              style: TextStyle(fontSize: 14),
+                              // textAlign: TextAlign.center,
+                            ),
+                            onTap: () {
+                              _getFromGallery();
+                            }),
                       ],
                     ),
                   ]))
@@ -149,12 +170,44 @@ class _CustomDialogBoxState extends State<Modal> {
       ],
     );
   }
+
+  /// Get from gallery
+  _getFromGallery() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  /// Get from Camera
+  _getFromCamera() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+      Navigator.pushNamed(
+        context,
+        ChangeImageView.routeName,
+        arguments: ImageViewModel(imageFile),
+      );
+    }
+  }
 }
 
 class _ViewModel {
-  final Function(Function()) getUserInfo;
   final UserState userState;
-  _ViewModel({@required this.getUserInfo, @required this.userState});
+  _ViewModel({@required this.userState});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(userState: store.state.user);

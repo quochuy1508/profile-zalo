@@ -69,4 +69,14 @@ class ApiClient {
       return User.fromJSON(data);
     }
   }
+
+  static Future<User> changeUser() async {
+    var url = Uri.parse('https://bk-zalo.herokuapp.com/api/user/get_user_info');
+    var response = await http.post(url, body: {'token': TOKEN});
+    print('Response status: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      return User.fromJSON(data);
+    }
+  }
 }

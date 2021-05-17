@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:sample_flutter_redux_app/Component/MoreInfo/MoreInfo.dart';
+import 'package:sample_flutter_redux_app/Component/ShowFullImage/ShowImage.dart';
+import 'package:sample_flutter_redux_app/Component/User/ChangeImageView.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/page/Profile.dart';
 import 'package:sample_flutter_redux_app/reducers/app_reducer.dart';
@@ -34,6 +37,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Redux Demo', home: ProfilePage());
+    return MaterialApp(
+        title: 'Flutter Redux Demo',
+        home: ProfilePage(),
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/personal': (context) => ProfilePage(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/moreInfo': (context) => MoreInfo(),
+          ChangeImageView.routeName: (context) => ChangeImageView(),
+        });
   }
 }

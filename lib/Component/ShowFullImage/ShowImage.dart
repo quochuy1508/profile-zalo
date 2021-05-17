@@ -9,9 +9,10 @@ class SecondScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("image: " + image);
     return new Scaffold(
       body: new Image.network(
-        image,
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
         fit: BoxFit.cover,
         height: double.infinity,
         width: double.infinity,

@@ -19,14 +19,6 @@ class Avatar extends StatelessWidget {
       this.borderWidth = 5})
       : super(key: key);
 
-  dynamic checkUrl(ImageProvider<dynamic> image, double radius) {
-    try {
-      return CircleAvatar(radius: radius, backgroundImage: image);
-    } catch (e) {
-      return Icon(Icons.image);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
@@ -56,7 +48,13 @@ class Avatar extends StatelessWidget {
                     );
                   });
             },
-            child: checkUrl(image, radius - borderWidth)),
+            child: CircleAvatar(
+              radius: radius - borderWidth,
+              backgroundImage: image,
+              onBackgroundImageError: (_, __) {
+                print("ERROR");
+              },
+            )),
       ),
     );
   }
