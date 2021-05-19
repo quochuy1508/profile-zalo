@@ -5,6 +5,7 @@ import 'dart:io';
 
 class ImageViewModel {
   final File image;
+  final String phonenumber;
 
-  ImageViewModel(this.image);
+  ImageViewModel(this.image, this.phonenumber);
 }

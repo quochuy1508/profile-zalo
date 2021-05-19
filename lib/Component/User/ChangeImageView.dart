@@ -15,9 +15,9 @@ class ChangeImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context).settings.arguments as ImageViewModel;
-    print("===================");
-    print(args);
-    print("===================");
+    // print("===================");
+    // print(args);
+    // print("===================");
     return StoreConnector<AppState, _ViewModel>(
         converter: (Store<AppState> store) => _ViewModel.fromStore(store),
         builder: (BuildContext context, _ViewModel vm) {
@@ -54,7 +54,9 @@ class ChangeImageView extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      vm.changeUser(() => {}, args.image);
+                      print(args.image.runtimeType);
+                      print(args.phonenumber.runtimeType);
+                      vm.changeUser(() => {}, args.image, args.phonenumber);
                     },
                     child: Text('Xong'),
                     style: ElevatedButton.styleFrom(
@@ -71,7 +73,7 @@ class ChangeImageView extends StatelessWidget {
 
 class _ViewModel {
   final UserState userState;
-  final Function(Function(), File) changeUser;
+  final Function(Function(), File, String) changeUser;
   _ViewModel({
     @required this.userState,
     @required this.changeUser,
@@ -79,10 +81,12 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        changeUser: (Function() onError, File avatar) async {
+        changeUser:
+            (Function() onError, File avatar, String phonenumber) async {
           print(avatar);
+          print(avatar.runtimeType);
           Completer completer = new Completer();
-          store.dispatch(changeInfoUser(completer, avatar));
+          store.dispatch(changeInfoUser(completer, avatar, phonenumber));
           try {
             await completer.future;
           } on Exception catch (e) {

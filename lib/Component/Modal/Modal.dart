@@ -138,7 +138,7 @@ class _CustomDialogBoxState extends State<Modal> {
                               // textAlign: TextAlign.center,
                             ),
                             onTap: () {
-                              _getFromCamera();
+                              _getFromCamera(userState.data.phonenumber);
                             }),
                       ],
                     ),
@@ -159,7 +159,7 @@ class _CustomDialogBoxState extends State<Modal> {
                               // textAlign: TextAlign.center,
                             ),
                             onTap: () {
-                              _getFromGallery();
+                              _getFromGallery(userState.data.phonenumber);
                             }),
                       ],
                     ),
@@ -172,7 +172,7 @@ class _CustomDialogBoxState extends State<Modal> {
   }
 
   /// Get from gallery
-  _getFromGallery() async {
+  _getFromGallery(String phonenumber) async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
@@ -182,11 +182,16 @@ class _CustomDialogBoxState extends State<Modal> {
       setState(() {
         imageFile = File(pickedFile.path);
       });
+      Navigator.pushNamed(
+        context,
+        ChangeImageView.routeName,
+        arguments: ImageViewModel(imageFile, phonenumber),
+      );
     }
   }
 
   /// Get from Camera
-  _getFromCamera() async {
+  _getFromCamera(String phonenumber) async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
       maxWidth: 1800,
@@ -199,7 +204,7 @@ class _CustomDialogBoxState extends State<Modal> {
       Navigator.pushNamed(
         context,
         ChangeImageView.routeName,
-        arguments: ImageViewModel(imageFile),
+        arguments: ImageViewModel(imageFile, phonenumber),
       );
     }
   }
