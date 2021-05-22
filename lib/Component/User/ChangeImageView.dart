@@ -8,6 +8,7 @@ import 'package:sample_flutter_redux_app/actions/user_actions.dart';
 import 'package:sample_flutter_redux_app/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/models/user/user_state.dart';
+import 'package:sample_flutter_redux_app/page/Profile.dart';
 
 class ChangeImageView extends StatelessWidget {
   static const routeName = '/uploadImage';
@@ -57,6 +58,10 @@ class ChangeImageView extends StatelessWidget {
                       print(args.image.runtimeType);
                       print(args.phonenumber.runtimeType);
                       vm.changeUser(() => {}, args.image, args.phonenumber);
+                      Navigator.pushNamed(
+                        context,
+                        ProfilePage.routeName,
+                      );
                     },
                     child: Text('Xong'),
                     style: ElevatedButton.styleFrom(

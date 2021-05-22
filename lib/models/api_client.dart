@@ -2,13 +2,17 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:sample_flutter_redux_app/actions/user_actions.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/models/post/post.dart';
 import 'package:sample_flutter_redux_app/models/user/user.dart';
+import 'package:sample_flutter_redux_app/models/user/user_state.dart';
+import 'package:sample_flutter_redux_app/page/Profile.dart';
 import 'package:sample_flutter_redux_app/selectors/selectors.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:async/async.dart';
+import 'package:redux/redux.dart';
 
 class ColorException extends FormatException {
   final Color badColor;
@@ -72,38 +76,8 @@ class ApiClient {
     }
   }
 
-  static dynamic changeUser(File avatar, String phonenumber) async {
-//     FormData formData = new FormData.from({
-//    "name": "wendux",
-//    "file1": new UploadFileInfo(new File("./upload.jpg"), "upload1.jpg")
-// });
-//     var response = await http
-//         .post(url, body: {'token': TOKEN, 'phonenumber': phonenumber});
-//     print('Response status: ${response.statusCode}');
-
-    // var request = http.MultipartRequest('POST', url);
-    // // print('avatar.path: ' + avatar.path);
-    // request.files.add(await http.MultipartFile.fromPath('avatar', avatar.path));
-    // r
-    // var response = await request.send();
-    // // print(response.headers);
-    // // print(response.statusCode);
-    // // print(response.reasonPhrase);
-    // // print(response.stream);
-    // // print(response);
-    // // listen for response
-
-    // // print(response.stream.first);
-    // // print(response.stream.last);
-    // if (response.statusCode == 200) {
-    //   response.stream.transform(utf8.decoder).listen((value) {
-    //     var data = jsonDecode(value);
-    //     print(value);
-    //     print(data['data']);
-    //     return User.fromJSON(data['data']);
-    //   });
-    //   //
-    // }
+  static Future<User> changeUser(
+      File avatar, String phonenumber, Store<AppState> store) async {
     // open a bytestream
     var stream = new http.ByteStream(DelegatingStream.typed(avatar.openRead()));
     // get file length
@@ -125,10 +99,18 @@ class ApiClient {
     request.fields['phonenumber'] = phonenumber;
     // send
     var response = await request.send();
-    print(response.statusCode);
-    return response.stream;
-    // listen for response
-    // response.stream.transform(utf8.decoder);
-    // return res.reasonPhrase;
+    print(response);
+    if (response.statusCode == 200) {
+      response.stream.transform(utf8.decoder).listen((value) {
+        var data = jsonDecode(value);
+        print(data['data']);
+        User user = User.fromJSON(data['data']);
+        print(user.avatar);
+        store.dispatch(
+            SetUser(new UserState(data: user, loading: false, error: null)));
+        // BuildContext context;
+        // Navigator.pushNamed(context, ProfilePage.routeName);
+      });
+    }
   }
 }

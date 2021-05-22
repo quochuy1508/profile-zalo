@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         home: ProfilePage(),
         routes: {
           // When navigating to the "/" route, build the FirstScreen widget.
-          '/personal': (context) => ProfilePage(),
+          ProfilePage.routeName: (context) => ProfilePage(),
           // When navigating to the "/second" route, build the SecondScreen widget.
           '/moreInfo': (context) => MoreInfo(),
           ChangeImageView.routeName: (context) => ChangeImageView(),

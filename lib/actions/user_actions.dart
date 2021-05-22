@@ -6,7 +6,6 @@ import 'package:sample_flutter_redux_app/models/api_client.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/models/user/user.dart';
 import 'package:sample_flutter_redux_app/models/user/user_state.dart';
-import 'dart:convert';
 
 ThunkAction<AppState> getUser(Completer completer) {
   return (Store<AppState> store) async {
@@ -30,21 +29,11 @@ ThunkAction<AppState> changeInfoUser(
     Completer completer, File avatar, String phonenumber) {
   return (Store<AppState> store) async {
     try {
-      ApiClient.changeUser(avatar, phonenumber)
-          .transform(utf8.decoder)
-          .listen((value) {
-        print("==============================");
-        print(value);
-        var data = jsonDecode(value);
-        // print(user.coverImage);
-        print(data['data']);
-        // print(user.description);
-        // print(user.phonenumber);
-        print("==============================");
-        // store.dispatch(
-        //     SetUser(new UserState(data: user, loading: false, error: null)));
-        // completer.complete();
-      });
+      print("===============1===============");
+      User user = await ApiClient.changeUser(avatar, phonenumber, store);
+      print("===============2===============");
+      print(user);
+      print("===============3===============");
     } on ColorException catch (e) {
       completer.completeError(e);
     }

@@ -18,6 +18,8 @@ import 'package:sample_flutter_redux_app/Component/Slider/HorizontalListAsset.da
 import 'package:flutter_redux/flutter_redux.dart';
 
 class ProfilePage extends StatefulWidget {
+  static const routeName = '/personal';
+
   @override
   _ProfilePageWidgetState createState() => _ProfilePageWidgetState();
 }
