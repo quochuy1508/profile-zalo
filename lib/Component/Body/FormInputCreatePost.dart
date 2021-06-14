@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_flutter_redux_app/page/FormPost.dart';
 
 class FormInputCreatePost extends StatelessWidget {
   @override
@@ -22,7 +23,8 @@ class FormInputCreatePost extends StatelessWidget {
                       margin: EdgeInsets.only(top: 20, bottom: 20, left: 10)),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, "about");
+                      // Navigator.pushNamed(context, "about");
+                      Navigator.pushNamed(context, FormPost.routeName);
                     },
                     child: new Text(
                       "Bạn đang nghĩ gì",

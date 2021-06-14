@@ -99,7 +99,7 @@ class _PostItemState extends State<PostItem> {
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic),
                             )),
-                        // ImageItem(images: widget.images),
+                        ImageItem(images: widget.images),
                         Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(

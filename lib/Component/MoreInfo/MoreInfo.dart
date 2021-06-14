@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/models/user/user_state.dart';
 
 class MoreInfo extends StatelessWidget {
+  static const routeName = '/moreInfo';
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
